@@ -7,7 +7,7 @@ class m161214_155504_stucture extends Migration
     public function up()
     {
 		$hash=  '$2y$13$xmbulraCa243W5l/vRsooOmGNm0XPj8EaVPio2c8.TA8Pfluw.9y6';
-		this->execute("INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
+		$this->execute("INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'sale', 'sD8Ys5-y6y_uMcRIdvlYxamZhgtkbfW3', '$hash', NULL, 'sale@mail.ru', 10, 1481458377, 1481458377);");
 		this->execute("
 		--
@@ -143,7 +143,7 @@ ALTER TABLE `order`
 ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `client` (`ID_client`),
   ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`ID_goods`) REFERENCES `goods` (`ID_goods`);
-")
+");
     }
 
     public function down()
