@@ -9,7 +9,7 @@ class m161214_155504_stucture extends Migration
 		$hash=  '$2y$13$xmbulraCa243W5l/vRsooOmGNm0XPj8EaVPio2c8.TA8Pfluw.9y6';
 		$this->execute("INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'sale', 'sD8Ys5-y6y_uMcRIdvlYxamZhgtkbfW3', '$hash', NULL, 'sale@mail.ru', 10, 1481458377, 1481458377);");
-		this->execute("
+		$this->execute("
 		--
 		-- Структура таблицы `client`
 		--
