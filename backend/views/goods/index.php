@@ -25,7 +25,7 @@
 	</tr>
 	 <?php } ?>
 	 <tr>
-	 <td colspan="5" ></td>
+	 <td colspan="4" ></td>
 	 <td><?= Html::a('<span class="glyphicon glyphicon-plus"></span>Добавить', ['goods/add']) ?>
 	 </tr>
 </table>
