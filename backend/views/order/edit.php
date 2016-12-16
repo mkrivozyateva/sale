@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 	echo $form->field($order, 'ID_client')->dropDownList($clientArray)->label('Клиент');
 	echo $form->field($order, 'ID_goods')->dropDownList(ArrayHelper::map($goods, 'ID_goods', 'name_goods'))->label('Препарат');
 	echo $form->field($order, 'quantity_goods')->label('Количество');
-	echo $form->field($order, 'status_order')->checkbox()->label('Статус');
+	echo $form->field($order, 'status_order')->checkbox()->label('Выполнен');
 ?>
 <div class="form-group">
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
