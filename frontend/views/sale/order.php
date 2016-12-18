@@ -11,11 +11,12 @@ use yii\helpers\ArrayHelper;
 <div>
 <?php
 	$clientArray = array();
-	foreach ($clients as $cl) {
-		$clientArray[$cl->ID_client] = $cl->last_name_client.' '.$cl->first_name_client.' '.$cl->patronimic_name_client.', '.$cl->date_birth.', '.$cl->address;
-	}
 	$form = ActiveForm::begin();
-	echo $form->field($order, 'ID_client')->dropDownList($clientArray)->label('Клиент');
+	echo $form->field($client, 'last_name_client')->label('Фамилия');
+	echo $form->field($client, 'first_name_client')->label('Имя');
+	echo $form->field($client, 'patronimic_name_client')->label('Отчество');
+	echo $form->field($client, 'date_birth')->label('Дата Рождения(ГГГГ-ММ-ДД)');
+	echo $form->field($client, 'address')->label('Адрес');
 	echo $form->field($order, 'quantity_goods')->label('Количество');
 ?>
 <div class="form-group">
