@@ -34,7 +34,7 @@ class Client extends \yii\db\ActiveRecord
         return [
             [['last_name_client', 'first_name_client', 'patronimic_name_client', 'date_birth', 'address'], 'required', 'message'=>'Поле обязательно для заполнения'],
             [['last_name_client', 'first_name_client', 'patronimic_name_client', 'address'], 'string', 'max' => 25],
-            [['date_birth'], 'type', 'type' => 'date', 'message' => '{attribute}: неверная дата (dd/mm/yyyy)', 'dateFormat' => 'dd/MM/yyyy'],
+            [['date_birth'], 'date', 'format' => 'y-m-d', 'message'=>'Неверный формат даты']
         ];
     }
 
