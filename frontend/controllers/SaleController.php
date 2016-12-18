@@ -42,16 +42,24 @@ class SaleController extends Controller
 	public function actionOrder ($id)
 	{
 		$order = new Order;
-		if ($order->load(Yii::$app->request->post())) {
-			$order->ID_goods = $id;
-			$order->status_order = 0;
-			if ($order->save()) {
-				return $this->redirect(['sale/index']);
+		$client = new Client;
+		if ($order->load(Yii::$app->request->post()) && $client->load(Yii::$app->request->post())) {
+			if (!$client->save()) {
+				echo 'Ошибка сохранения клиента';
 			} else {
-				echo 'GoodsID: '.$order->ID_goods;
-				echo '<br>ClientID: '.$order->ID_client;
-				echo '<br>Quantity: '.$order->quantity_goods;
-				echo '<br>Status: '.$order->status_order;
+				$order->ID_client = $client->ID_client;
+				$order->ID_goods = $id;
+				$order->status_order = 0;
+				if ($order->save()) {
+					return $this->redirect(['sale/index']);
+				} else {
+					echo 'Ошибка сохранения заказа';
+					echo 'GoodsID: '.$order->ID_goods;
+					echo '<br>ClientID: '.$order->ID_client;
+					echo '<br>Quantity: '.$order->quantity_goods;
+					echo '<br>Status: '.$order->status_order;
+					echo '<br>Last Name: '.$client->last_name_client;
+				}
 			}
 		} else {
 			$order->ID_goods = $id;
@@ -59,7 +67,7 @@ class SaleController extends Controller
 			$clients=Client::find()
 			->orderBy(['last_name_client' => SORT_ASC])
 			->all ();
-			return $this->render('order', ['product' => $product, 'clients' => $clients, 'order' => $order]);
+			return $this->render('order', ['product' => $product, 'clients' => $clients, 'order' => $order, 'client' => $client]);
 		}
 	}
 }
