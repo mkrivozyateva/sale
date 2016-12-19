@@ -13,7 +13,13 @@
 		<th>Действия </th>
 	</tr>
 
-	<?php foreach($orders as $order){ ?>
+	<?php foreach($orders as $order){ 
+		if ($order->status_order == 0) {
+			$status = 'Не выполнен';
+		} else {
+			$status = 'Выполнен';
+		}
+	?>
 	<tr>
 		<td> <?= $order->ID_order ?> </td>
 		<td> <?= htmlspecialchars($order->getIDGoods()->one()->name_goods) ?> </td>
@@ -22,7 +28,7 @@
 		<td> <?php echo htmlspecialchars($order->getIDClient()->one()->patronimic_name_client) ?> </td>
 		<td> <?= htmlspecialchars($order->quantity_goods); echo " шт."  ?> </td>
 		<td> <?= htmlspecialchars($order->getIDGoods()->one()->price_goods * $order->quantity_goods) ?> </td>
-		<td> <?= htmlspecialchars($order->status_order)?> </td>
+		<td> <?= htmlspecialchars($status)?> </td>
 		
 		<td> 
 			 <?= Html::a('<span class="glyphicon glyphicon-edit"></span>Редактировать', ['order/edit', 'ID_order' => $order ->ID_order],['class'=>'btn btn-primary']) ?>
