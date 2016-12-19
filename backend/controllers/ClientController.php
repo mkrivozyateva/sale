@@ -49,7 +49,7 @@ class ClientController extends Controller
 	public function actionEdit($ID_client) {
 		$client=Client::findOne($ID_client);
 		if (!$client) {
-			return 'Клиент не найден';
+			throw new \yii\web\NotFoundHttpException('Клиент не найден');
 		}
 		
 		if (isset($_POST['Client'])) {
