@@ -33,7 +33,7 @@ class Goods extends \yii\db\ActiveRecord
             [['name_goods', 'weight_goods', 'price_goods'], 'required', 'message'=>'Поле обязательно для заполнения'],
             [['price_goods', 'weight_goods'], 'number'],
 			[['name_goods'], 'string', 'max' => 25],
-            [['weight_goods', 'price_goods'], 'integer'],
+            [['weight_goods', 'price_goods'], 'integer', 'message'=>'Должно быть числовое значение'],
         ];
     }
 
