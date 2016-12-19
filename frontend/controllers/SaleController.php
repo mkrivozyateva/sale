@@ -1,73 +1,41 @@
-<?php
-namespace frontend\controllers;
-use Yii;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
-use app\models\Sale;
-use app\models\Goods;
-use app\models\Client;
-use app\models\Order;
+<?php Use \yii\helpers\Html; ?>
+<h2>Заказы</h2>
+<table class="table">
+	<tr>
+		<th>№ </th> 
+		<th>Название препарата </th> 
+		<th>Имя </th> 
+		<th>Фамилия </th>
+		<th>Отчество </th>
+		<th>Количество </th>
+		<th>Цена </th>
+		<th>Выполнен </th>
+		<th>Действия </th>
+	</tr>
 
-/**
- * Site controller
- */
-class SaleController extends Controller
-{ 
-	public function actionIndex ()
-	{
-		$goods=Goods::find()
-		->orderBy(['name_goods' => SORT_ASC])
-		->all ();
-		return $this->render('index', ['goods' => $goods]);
-	}
+	<?php foreach($orders as $order){ 
+		if ($order->status_order == 0) {
+			$status = 'Не выполнен';
+		} else {
+			$status = 'Выполнен';
+		}
+	?>
+	<tr>
+		<td> <?= $order->ID_order ?> </td>
+		<td> <?= htmlspecialchars($order->getIDGoods()->one()->name_goods) ?> </td>
+		<td> <?php echo htmlspecialchars($order->getIDClient()->one()->first_name_client) ?> </td>
+		<td> <?php echo htmlspecialchars($order->getIDClient()->one()->last_name_client) ?> </td>
+		<td> <?php echo htmlspecialchars($order->getIDClient()->one()->patronimic_name_client) ?> </td>
+		<td> <?= htmlspecialchars($order->quantity_goods); echo " шт."  ?> </td>
+		<td> <?= htmlspecialchars($order->getIDGoods()->one()->price_goods * $order->quantity_goods) ?> </td>
+		<td> <?= htmlspecialchars($status)?> </td>
+		
+		<td> 
+			 <?= Html::a('<span class="glyphicon glyphicon-edit"></span>Редактировать', ['order/edit', 'ID_order' => $order ->ID_order],['class'=>'btn btn-primary']) ?>
+			 <?= Html::a('<span class="glyphicon glyphicon-remove"></span>Удалить', ['order/delete', 'ID_order' => $order ->ID_order],['class'=>'btn btn-small btn-danger'],['type'=>'button'])?>
+		</td>
+	</tr>
+	 <?php } ?>
 	
-	public function actionView($id){
-		$goods = Books::findOne($id);
-		if ($goods) {
-			return $this->render('view',
-			['goods' => $goods]);
-		} else {
-			throw new \yii\web\NotFoundHttpException('Препарат не найден');
-		}
-	}
+</table>
 
-	public function actionOrder ($id)
-	{
-		$order = new Order;
-		$client = new Client;
-		if ($order->load(Yii::$app->request->post()) && $client->load(Yii::$app->request->post())) {
-			if (!$client->save()) {
-				echo 'Ошибка сохранения клиента';
-			} else {
-				$order->ID_client = $client->ID_client;
-				$order->ID_goods = $id;
-				$order->status_order = 0;
-				if ($order->save()) {
-					return $this->redirect(['sale/index']);
-				} else {
-					echo 'Ошибка сохранения заказа';
-					echo 'GoodsID: '.$order->ID_goods;
-					echo '<br>ClientID: '.$order->ID_client;
-					echo '<br>Quantity: '.$order->quantity_goods;
-					echo '<br>Status: '.$order->status_order;
-					echo '<br>Last Name: '.$client->last_name_client;
-				}
-			}
-		} else {
-			$order->ID_goods = $id;
-			$product=Goods::findOne($id);
-			$clients=Client::find()
-			->orderBy(['last_name_client' => SORT_ASC])
-			->all ();
-			return $this->render('order', ['product' => $product, 'clients' => $clients, 'order' => $order, 'client' => $client]);
-		}
-	}
-}
