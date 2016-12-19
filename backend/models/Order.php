@@ -33,7 +33,7 @@ class Order extends \yii\db\ActiveRecord
     {
         return [
             [['ID_client', 'ID_goods', 'quantity_goods', 'status_order'], 'required'],
-            [['ID_client', 'ID_goods', 'quantity_goods', 'status_order'], 'integer'],
+            [['ID_client', 'ID_goods', 'quantity_goods', 'status_order'], 'integer', 'message'=>'Должно быть числовое значение'],
             [['ID_client'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['ID_client' => 'ID_client']],
             [['ID_goods'], 'exist', 'skipOnError' => true, 'targetClass' => Goods::className(), 'targetAttribute' => ['ID_goods' => 'ID_goods']],
         ];
