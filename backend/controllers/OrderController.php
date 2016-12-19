@@ -49,13 +49,16 @@ class OrderController extends Controller
 
 	public function actionEdit($ID_order) {
 		$order=Order::findOne($ID_order);
+		if ($order == null){
+				throw new \yii\web\NotFoundHttpException('Заказ не найден');
+			}
 		if ($order->load(Yii::$app->request->post())) {
 			if ($order->save()) {
 				return $this->redirect(['order/index']);
 			}
 		} else {
 			if (!$order) {
-				return 'Запись не найдена';
+				throw new \yii\web\NotFoundHttpException('Заказ не найден');
 			}
 			$goods=Goods::find()->all();
 			$clients=Client::find()->all();
@@ -66,7 +69,7 @@ class OrderController extends Controller
 	public function actionDelete($ID_order){
 		$order=Order::findOne($ID_order);
 		if (!$order) {
-			return 'Запись не найдена';
+			throw new \yii\web\NotFoundHttpException('Заказ не найден');
 		}
 		$order->delete();
 		return $this->redirect(['order/index']);
@@ -105,7 +108,7 @@ class OrderController extends Controller
 	public function actionEditarchive($ID_order) {
 		$order=Order::findOne($ID_order);
 		if (!$order) {
-			return 'Запись не найдена';
+			throw new \yii\web\NotFoundHttpException('Заказ не найден');
 		}
 		$goods=Goods::find()->having('status=1') ->all();
 		$clients=Client::find()->all();
