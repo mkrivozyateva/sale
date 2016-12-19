@@ -48,7 +48,7 @@ class GoodsController extends Controller
 	public function actionEdit($ID_goods) {
 		$goods=Goods::findOne($ID_goods);
 		if (!$goods) {
-			return 'Препарат не найден';
+			throw new \yii\web\NotFoundHttpException('Препарат не найден');
 		}
 	
 		if (isset($_POST['Goods'])) {
